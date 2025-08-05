@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% block title %}Available Spaces - EventSpace{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Find Your Perfect Space</h1>
+            <p class="text-lg text-gray-100 max-w-3xl mx-auto">Discover unique and inspiring venues for your next event. From intimate meeting rooms to grand ballrooms, we have the perfect space for any occasion.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Spaces Grid -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for space in spaces %}
+        <div class="card group hover:scale-105 transition-transform duration-300">
+            <div class="relative overflow-hidden rounded-t-lg">
+                <img src="{{ space.image }}" alt="{{ space.name }}" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110">
+                {% if space.booked %}
+                <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Booked</div>
+                {% else %}
+                <div class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Available</div>
+                {% endif %}
+            </div>
+            
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">{{ space.name }}</h3>
+                    <div class="flex items-center">
+                        <span class="text-yellow-400">★</span>
+                        <span class="ml-1 text-gray-600">{{ space.rating }} ({{ space.reviews }})</span>
+                    </div>
+                </div>
+                
+                <div class="mb-4 text-gray-600">
+                    <p class="mb-2"><i class="fas fa-map-marker-alt"></i> {{ space.location }}</p>
+                    <p class="mb-2"><i class="fas fa-users"></i> Capacity: {{ space.capacity }} people</p>
+                    <p><i class="fas fa-dollar-sign"></i> ${{ space.price_per_hour }}/hour</p>
+                </div>
+
+                <p class="text-gray-700 mb-4">{{ space.description }}</p>
+                
+                <div class="mb-4">
+                    <h4 class="text-sm font-semibold text-gray-900 mb-2">Amenities:</h4>
+                    <div class="flex flex-wrap gap-2">
+                        {% for amenity in space.amenities|slice:":3" %}
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">{{ amenity }}</span>
+                        {% endfor %}
+                        {% if space.amenities|length > 3 %}
+                        <span class="text-gray-500 text-xs">+{{ space.amenities|length|add:"-3" }} more</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <a href="{% url 'space-detail' %}?space={{ space.name }}" class="btn-primary">View Details</a>
+                    {% if not space.booked and role == 'attendee' %}
+                    <a href="{% url 'bookings-page' %}?space={{ space.name }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">Book Now</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+  .space-name {
+    margin: 0 0 10px 0;
+    color: #7f5539;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  .space-desc {
+    margin: 0 0 8px 0;
+    color: #6d4c41;
+    font-size: 1rem;
+  }
+  .space-meta {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #a47149;
+  }
+  .space-capacity {
+    margin: 0;
+    font-size: 14px;
+    color: #a47149;
+  }
+  .space-btn {
+    display: block;
+    margin: 18px auto 0 auto;
+    padding: 8px 24px;
+    background: #e0a96d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+    box-shadow: 0 2px 8px #e0a96d33;
+  }
+  .space-btn:hover {
+    background: #9c6644;
+  }
+</style>
+<script>
+  function showAlert(name) {
+    alert('You clicked to book: ' + name);
+  }
+</script>
+{% endblock %}
+{% block content %}
+<h2 class="spaces-title">Available Spaces</h2>
+<div class="spaces-grid">
+    {% for space in spaces %}
+        {% if not space.booked %}
+        <div class="space-card">
+            <img src="{{ space.image }}" alt="{{ space.name }}" class="space-img">
+            <div class="space-content">
+                <h3 class="space-name">{{ space.name }}</h3>
+                <p class="space-desc">{{ space.description }}</p>
+                <p class="space-meta">Location: {{ space.location }}</p>
+                <p class="space-capacity">Capacity: {{ space.capacity }}</p>
+                {% if role == 'organizer' %}
+                  <a href="/spaces/view/?space={{ space.name|urlencode }}" class="space-btn">View &amp; Book</a>
+                {% else %}
+                  <a href="/spaces/view/?space={{ space.name|urlencode }}" class="space-btn" style="background:#b5838d;cursor:not-allowed;">View Only</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    {% empty %}
+    <p>No available spaces.</p>
+    {% endfor %}
+</div>
+
+<h2 class="spaces-title" style="margin-top:60px;">Booked Spaces</h2>
+<div class="spaces-grid">
+    {% for space in spaces %}
+        {% if space.booked %}
+        <div class="space-card" style="opacity:0.7;">
+            <img src="{{ space.image }}" alt="{{ space.name }}" class="space-img">
+            <div class="space-content">
+                <h3 class="space-name">{{ space.name }}</h3>
+                <p class="space-desc">{{ space.description }}</p>
+                <p class="space-meta">Location: {{ space.location }}</p>
+                <p class="space-capacity">Capacity: {{ space.capacity }}</p>
+                <span class="space-btn" style="background:#b5838d;cursor:not-allowed;">Booked</span>
+            </div>
+        </div>
+        {% endif %}
+    {% empty %}
+    <p>No booked spaces.</p>
+    {% endfor %}
+</div>
+{% endblock %}

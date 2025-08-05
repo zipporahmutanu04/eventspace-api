@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Upcoming Events - EventSpace{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Discover Amazing Events</h1>
+            <p class="text-lg text-gray-100 max-w-3xl mx-auto">Browse through our curated selection of upcoming events and find the perfect one for you.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Section -->
+<div class="bg-gray-50 border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex flex-wrap gap-4 justify-center">
+            <button class="px-4 py-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors">All Events</button>
+            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Technology</button>
+            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Business</button>
+            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Arts & Culture</button>
+            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Food & Drinks</button>
+            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Music</button>
+        </div>
+    </div>
+</div>
+
+<!-- Events Grid -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for event in events %}
+        <div class="card group hover:scale-105 transition-transform duration-300">
+            <div class="relative overflow-hidden rounded-t-lg">
+                <img src="{{ event.image }}" alt="{{ event.name }}" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110">
+                <div class="absolute top-4 right-4">
+                    <div class="bg-white bg-opacity-90 rounded-lg px-3 py-1 text-sm font-semibold text-gray-900">
+                        {{ event.price }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <div class="flex flex-wrap gap-2 mb-4">
+                    {% for tag in event.tags %}
+                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-900 mb-2">{{ event.name }}</h3>
+                <p class="text-gray-600 mb-4">{{ event.description }}</p>
+
+                <div class="space-y-2 text-gray-600 mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt w-5"></i>
+                        <span>{{ event.venue }}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-calendar w-5"></i>
+                        <span>{{ event.date }}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-clock w-5"></i>
+                        <span>{{ event.time }}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-users w-5"></i>
+                        <span>{{ event.capacity }} attendees max</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div class="text-sm text-gray-600">
+                        <span class="font-semibold">By:</span> {{ event.organizer }}
+                    </div>
+                    <a href="#" class="btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-3 text-center py-12">
+            <p class="text-gray-600 text-lg">No events found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+  }
+  .event-desc {
+    margin: 0 0 8px 0;
+    color: #6d4c41;
+    font-size: 1rem;
+  }
+  .event-meta {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #a47149;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<h2 class="events-title">Upcoming Events</h2>
+<div class="events-grid">
+    {% for event in events %}
+    <div class="event-card">
+        <img src="{{ event.image }}" alt="{{ event.name }}" class="event-img">
+        <div class="event-content">
+            <h3 class="event-name">{{ event.name }}</h3>
+            <p class="event-desc">{{ event.description }}</p>
+            <p class="event-meta">Venue: {{ event.venue }}</p>
+            <p class="event-meta">Date: {{ event.date }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <p>No events found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

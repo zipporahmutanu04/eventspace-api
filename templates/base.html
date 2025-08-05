@@ -1,0 +1,77 @@
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EventSpace{% endblock %}</title>
+    {% load static %}
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+    {% block head %}{% endblock %}
+</head>
+<body class="flex flex-col min-h-screen bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="{% url 'home-page' %}" class="text-2xl font-bold text-primary">EventSpace</a>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="{% url 'home-page' %}" class="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 {% if request.resolver_match.url_name == 'home-page' %}border-primary{% else %}border-transparent{% endif %} text-sm font-medium">Home</a>
+                        <a href="{% url 'spaces-page' %}" class="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 {% if request.resolver_match.url_name == 'spaces-page' %}border-primary{% else %}border-transparent{% endif %} text-sm font-medium">Spaces</a>
+                        <a href="{% url 'events-page' %}" class="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 {% if request.resolver_match.url_name == 'events-page' %}border-primary{% else %}border-transparent{% endif %} text-sm font-medium">Events</a>
+                        <a href="{% url 'bookings-page' %}" class="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 {% if request.resolver_match.url_name == 'bookings-page' %}border-primary{% else %}border-transparent{% endif %} text-sm font-medium">Bookings</a>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-4">
+                    {% if user.is_authenticated %}
+                        <span class="text-gray-700">Welcome, {{ user.username }}</span>
+                        <a href="{% url 'logout' %}" class="btn-primary">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login-page' %}" class="text-gray-700 hover:text-primary">Login</a>
+                        <a href="{% url 'register-page' %}" class="btn-primary">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About EventSpace</h3>
+                    <p class="text-gray-300">Your premier destination for finding and booking the perfect venue for your events.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'home-page' %}" class="text-gray-300 hover:text-white">Home</a></li>
+                        <li><a href="{% url 'spaces-page' %}" class="text-gray-300 hover:text-white">Spaces</a></li>
+                        <li><a href="{% url 'events-page' %}" class="text-gray-300 hover:text-white">Events</a></li>
+                        <li><a href="{% url 'bookings-page' %}" class="text-gray-300 hover:text-white">Bookings</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Email: info@eventspace.com</li>
+                        <li>Phone: +1 (555) 123-4567</li>
+                        <li>Address: 123 Event Street, City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-300">&copy; {% now "Y" %} EventSpace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

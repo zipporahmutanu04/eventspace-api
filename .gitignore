@@ -1,0 +1,14 @@
+db.sqlite3
+.env
+apps/authentication/migrations
+apps\authentication\migrations
+
+**/__pycache__/
+**/*.py[cod]
+
+**/migrations/*
+!**/migrations/__init__.py
+
+# Ignore images in spaces folder
+spaces/images/
+media/

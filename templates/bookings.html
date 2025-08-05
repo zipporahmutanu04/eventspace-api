@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block title %}Bookings - EventSpace{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Event Bookings</h1>
+            <p class="text-lg text-gray-100 max-w-3xl mx-auto">Manage your event bookings and reservations all in one place.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Bookings List -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {% if selected_space %}
+    <div class="mb-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <p class="text-blue-600">Showing bookings for: <strong>{{ selected_space }}</strong></p>
+    </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 gap-8">
+        {% for booking in bookings %}
+        <div class="card overflow-hidden">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">{{ booking.purpose }}</h3>
+                        <p class="text-gray-600">Booking ID: {{ booking.id }}</p>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        {% if booking.status == 'Confirmed' %}
+                        <span class="bg-green-100 text-green-800 text-sm font-semibold px-3 py-1 rounded-full">Confirmed</span>
+                        {% else %}
+                        <span class="bg-yellow-100 text-yellow-800 text-sm font-semibold px-3 py-1 rounded-full">Pending</span>
+                        {% endif %}
+                        <p class="text-lg font-semibold text-gray-900 mt-2">{{ booking.total_cost }}</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-2">Event Details</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><i class="fas fa-building"></i> {{ booking.space }}</li>
+                            <li><i class="fas fa-calendar"></i> {{ booking.date }}</li>
+                            <li><i class="fas fa-clock"></i> {{ booking.time }}</li>
+                            <li><i class="fas fa-users"></i> {{ booking.attendees }} attendees</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-2">Amenities Requested</h4>
+                        <div class="flex flex-wrap gap-2">
+                            {% for amenity in booking.amenities_requested %}
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">{{ amenity }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-2">Contact Information</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><i class="fas fa-user"></i> {{ booking.organizer }}</li>
+                            <li><i class="fas fa-envelope"></i> {{ booking.contact_email }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    {% if booking.status == 'Pending' %}
+                    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors">Cancel Booking</button>
+                    {% endif %}
+                    <button class="btn-primary">View Details</button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-12">
+            <p class="text-gray-600 text-lg">No bookings found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+  .booking-name {
+    margin: 0 0 10px 0;
+    color: #7f5539;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  .booking-desc {
+    margin: 0 0 8px 0;
+    color: #6d4c41;
+    font-size: 1rem;
+  }
+  .booking-meta {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #a47149;
+  }
+  .booking-date {
+    margin: 0;
+    font-size: 14px;
+    color: #a47149;
+  }
+  .booking-btn {
+    display: block;
+    margin: 18px auto 0 auto;
+    padding: 8px 24px;
+    background: #e0a96d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+    box-shadow: 0 2px 8px #e0a96d33;
+  }
+  .booking-btn:hover {
+    background: #9c6644;
+  }
+</style>
+<script>
+  function showBookingAlert(name) {
+    alert('Booking details for: ' + name);
+  }
+</script>
+{% endblock %}
+{% block content %}
+<h2 class="bookings-title">My Bookings</h2>
+
+{% if selected_space %}
+<div style="max-width:420px;margin:30px auto 40px auto;background:#fae1dd;padding:32px 28px 24px 28px;border-radius:18px;box-shadow:0 4px 16px #e0a96d44;">
+  <h3 style="color:#9c6644;text-align:center;margin-bottom:18px;">Book: {{ selected_space }}</h3>
+  <form method="get" action="/bookings/">
+    <input type="hidden" name="space" value="{{ selected_space }}">
+    <div style="margin-bottom:18px;">
+      <label style="color:#7f5539;font-weight:500;">Event Date:</label><br>
+      <input type="date" name="date" required style="width:100%;padding:10px;border-radius:8px;border:1px solid #e0a96d;margin-top:6px;">
+    </div>
+    <div style="margin-bottom:18px;">
+      <label style="color:#7f5539;font-weight:500;">Event Details:</label><br>
+      <textarea name="details" rows="3" required style="width:100%;padding:10px;border-radius:8px;border:1px solid #e0a96d;margin-top:6px;"></textarea>
+    </div>
+    <button class="booking-btn" type="submit" style="width:100%;">Confirm Booking</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="bookings-grid">
+    {% for booking in bookings %}
+    <div class="booking-card">
+        <img src="{{ booking.image }}" alt="{{ booking.space_name }}" class="booking-img">
+        <div class="booking-content">
+            <h3 class="booking-name">{{ booking.space_name }}</h3>
+            <p class="booking-desc">{{ booking.details }}</p>
+            <p class="booking-date">Date: {{ booking.date }}</p>
+            <a href="/bookings/?space={{ booking.space_name|urlencode }}" class="booking-btn">View</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No bookings found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

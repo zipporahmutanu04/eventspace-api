@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block head %}
+<style>
+  .login-container {
+    max-width: 400px;
+    margin: 40px auto;
+    background: #fae1dd;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px #e0a96d44;
+    padding: 36px 32px 28px 32px;
+    text-align: center;
+  }
+  .login-title {
+    color: #9c6644;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .login-form label {
+    color: #7f5539;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+  .login-form input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e0a96d;
+    margin-bottom: 18px;
+    font-size: 1rem;
+  }
+  .login-form button {
+    background: #e0a96d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+    box-shadow: 0 2px 8px #e0a96d33;
+  }
+  .login-form button:hover {
+    background: #9c6644;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="login-container">
+  <div class="login-title">Login</div>
+  <form class="login-form" method="post" autocomplete="off">
+    {% csrf_token %}
+    <label for="login-username">Username:</label>
+    <input id="login-username" type="text" name="username" placeholder="Enter your username" required autofocus>
+    <label for="login-password">Password:</label>
+    <input id="login-password" type="password" name="password" placeholder="Enter your password" required>
+    <button type="submit">Login</button>
+    <div style="margin-top:18px;">
+      Don't have an account? <a href="/register/" style="color:#9c6644;font-weight:600;">Register</a>
+    </div>
+  </form>
+</div>
+{% endblock %}{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<h2>Login</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form>
+{% endblock %}

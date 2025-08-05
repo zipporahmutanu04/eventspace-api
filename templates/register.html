@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+{% block head %}
+<style>
+  .register-container {
+    max-width: 400px;
+    margin: 40px auto;
+    background: #fae1dd;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px #e0a96d44;
+    padding: 36px 32px 28px 32px;
+    text-align: center;
+  }
+  .register-title {
+    color: #9c6644;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .register-form label {
+    color: #7f5539;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+  .register-form input, .register-form select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e0a96d;
+    margin-bottom: 18px;
+    font-size: 1rem;
+  }
+  .register-form button {
+    background: #e0a96d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+    box-shadow: 0 2px 8px #e0a96d33;
+  }
+  .register-form button:hover {
+    background: #9c6644;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="register-container">
+  <div class="register-title">Register</div>
+  <form class="register-form" method="post" autocomplete="off">
+    {% csrf_token %}
+    <label for="reg-username">Username:</label>
+    <input id="reg-username" type="text" name="username" placeholder="Enter your username" required autofocus>
+    <label for="reg-password">Password:</label>
+    <input id="reg-password" type="password" name="password" placeholder="Create a password" required>
+    <label for="reg-role">Role:</label>
+    <select id="reg-role" name="role" required>
+      <option value="organizer">Organizer</option>
+      <option value="attendee">Attendee</option>
+    </select>
+    <button type="submit">Register</button>
+    <div style="margin-top:18px;">
+      Already have an account? <a href="/login/" style="color:#9c6644;font-weight:600;">Login</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

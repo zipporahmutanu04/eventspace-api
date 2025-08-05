@@ -1,0 +1,6 @@
+{% extends 'emails/base_email.html' %}
+{% block subject %}Welcome to EventSpace{% endblock %}
+{% block email_content %}
+<p>Hello {{ user.username }},</p>
+<p>Welcome to EventSpace! We're glad to have you.</p>
+{% endblock %}

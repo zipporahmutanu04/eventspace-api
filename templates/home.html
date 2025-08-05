@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}EventSpace - Find Your Perfect Venue{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Find Your Perfect Event Space</h1>
+            <p class="text-xl md:text-2xl mb-8">Discover and book unique venues for your next event</p>
+            <div class="space-x-4">
+                <a href="{% url 'spaces-page' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">Browse Spaces</a>
+                <a href="{% url 'register-page' %}" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-300">Get Started</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900">About EventSpace</h2>
+            <p class="mt-4 text-xl text-gray-600">Your Premier Destination for Event Venues</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Mission</h3>
+                <p class="text-gray-600">To connect event organizers with the perfect venues, making event planning seamless and enjoyable.</p>
+            </div>
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Vision</h3>
+                <p class="text-gray-600">To be the world's leading platform for discovering and booking exceptional event spaces.</p>
+            </div>
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Values</h3>
+                <p class="text-gray-600">Quality, Reliability, Innovation, and Customer Satisfaction drive everything we do.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900">Our Services</h2>
+            <p class="mt-4 text-xl text-gray-600">Everything you need for your perfect event</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="card">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Venue Search</h3>
+                <p class="text-gray-600">Find the perfect space for any event type and size.</p>
+            </div>
+            <div class="card">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Easy Booking</h3>
+                <p class="text-gray-600">Simple and secure booking process with instant confirmation.</p>
+            </div>
+            <div class="card">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Virtual Tours</h3>
+                <p class="text-gray-600">Explore venues virtually before making a decision.</p>
+            </div>
+            <div class="card">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">24/7 Support</h3>
+                <p class="text-gray-600">Round-the-clock assistance for all your needs.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900">Contact Us</h2>
+            <p class="mt-4 text-xl text-gray-600">We'd love to hear from you</p>
+        </div>
+        <div class="max-w-3xl mx-auto">
+            <form class="grid grid-cols-1 gap-6">
+                <div>
+                    <label class="form-label" for="name">Name</label>
+                    <input type="text" id="name" name="name" class="input-field" placeholder="Your name">
+                </div>
+                <div>
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" name="email" class="input-field" placeholder="Your email">
+                </div>
+                <div>
+                    <label class="form-label" for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" class="input-field" placeholder="Your message"></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="btn-primary w-full">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+  .home-img {
+    width: 340px;
+    border-radius: 18px;
+    margin-top: 30px;
+    box-shadow: 0 2px 16px #e0a96d33;
+  }
+</style>
+<script>
+  function goToSpaces() {
+    window.location.href = '/spaces/';
+  }
+</script>
+{% endblock %}
+{% block content %}
+<div class="home-hero">
+  <h1 class="home-title">Welcome to EventSpace</h1>
+  <p class="home-desc">Your one-stop solution for booking and managing event spaces. Discover beautiful venues, book instantly, and make your events memorable!</p>
+  <button class="home-btn" onclick="goToSpaces()">Explore Spaces</button>
+  <img class="home-img" src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Event Venue">
+</div>
+{% endblock %}

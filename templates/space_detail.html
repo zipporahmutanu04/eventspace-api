@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block title %}Space Details{% endblock %}
+{% block head %}
+<style>
+  .detail-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fae1dd;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px #e0a96d44;
+    padding: 36px 32px 28px 32px;
+    text-align: center;
+  }
+  .detail-img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px #e0a96d33;
+  }
+  .detail-title {
+    color: #9c6644;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .detail-desc {
+    color: #7f5539;
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+  }
+  .detail-meta {
+    color: #a47149;
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+  .detail-btn {
+    background: #e0a96d;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 32px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #e0a96d33;
+    transition: background .2s;
+    margin-top: 18px;
+    margin-bottom: 10px;
+  }
+  .detail-btn:hover {
+    background: #9c6644;
+  }
+  .booked-label {
+    display: inline-block;
+    background: #b5838d;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    margin-top: 18px;
+    margin-bottom: 10px;
+  }
+  .booking-form {
+    margin-top: 30px;
+    background: #f7ede2;
+    border-radius: 12px;
+    padding: 24px 18px 18px 18px;
+    box-shadow: 0 2px 8px #e0a96d22;
+    text-align: left;
+  }
+  .booking-form label {
+    color: #7f5539;
+    font-weight: 500;
+  }
+  .booking-form input, .booking-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e0a96d;
+    margin-top: 6px;
+    margin-bottom: 18px;
+    font-size: 1rem;
+  }
+  .booking-form button {
+    background: #e0a96d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+    box-shadow: 0 2px 8px #e0a96d33;
+  }
+  .booking-form button:hover {
+    background: #9c6644;
+  }
+  .confirmation {
+    background: #f6c28b;
+    color: #7f5539;
+    border-radius: 8px;
+    padding: 16px 10px;
+    margin-top: 18px;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+</style>
+<script>
+  function showConfirmation() {
+    document.getElementById('booking-form').style.display = 'none';
+    document.getElementById('confirmation').style.display = 'block';
+    return false;
+  }
+</script>
+{% endblock %}
+{% block content %}
+<div class="detail-container">
+  {% if space %}
+    <img src="{{ space.image }}" alt="{{ space.name }}" class="detail-img">
+    <div class="detail-title">{{ space.name }}</div>
+    <div class="detail-desc">{{ space.description }}</div>
+    <div class="detail-meta">Location: {{ space.location }}</div>
+    <div class="detail-meta">Capacity: {{ space.capacity }}</div>
+    {% if not space.booked %}
+      {% if role == 'organizer' %}
+        <button class="detail-btn" onclick="document.getElementById('booking-form').scrollIntoView({behavior: 'smooth'});">Book This Space</button>
+        <form id="booking-form" class="booking-form" method="post" onsubmit="return showConfirmation();">
+          {% csrf_token %}
+          <label>Event Date:</label>
+          <input type="date" name="date" required>
+          <label>Event Details:</label>
+          <textarea name="details" rows="3" required></textarea>
+          <button type="submit">Confirm Booking</button>
+        </form>
+        <div id="confirmation" class="confirmation" style="display:none;">Booking confirmed! (simulated)</div>
+      {% else %}
+        <span class="booked-label">Attendees can only view details.</span>
+      {% endif %}
+    {% else %}
+      <span class="booked-label">Already Booked</span>
+    {% endif %}
+  {% else %}
+    <p>Space not found.</p>
+  {% endif %}
+</div>
+{% endblock %}

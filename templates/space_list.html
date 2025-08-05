@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Spaces{% endblock %}
+{% block content %}
+<h2>Available Spaces</h2>
+<ul>
+    {% for space in spaces %}
+    <li><a href="{% url 'space_detail' space.id %}">{{ space.name }}</a></li>
+    {% empty %}
+    <li>No spaces available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

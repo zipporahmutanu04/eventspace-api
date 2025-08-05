@@ -1,0 +1,6 @@
+{% extends 'emails/base_email.html' %}
+{% block subject %}Booking Confirmation{% endblock %}
+{% block email_content %}
+<p>Dear {{ user.username }},</p>
+<p>Your booking for {{ booking.space_name }} on {{ booking.date }} has been confirmed.</p>
+{% endblock %}
