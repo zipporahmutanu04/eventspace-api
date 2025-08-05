@@ -3,25 +3,25 @@
 
 {% block content %}
 <!-- Hero Section -->
-<div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-12">
+<div class="bg-gradient-to-r from-slate-900 to-slate-700 text-white py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-            <h1 class="text-3xl md:text-4xl font-bold mb-4">Discover Amazing Events</h1>
-            <p class="text-lg text-gray-100 max-w-3xl mx-auto">Browse through our curated selection of upcoming events and find the perfect one for you.</p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Discover Amazing Events</h1>
+            <p class="text-xl text-slate-200 max-w-3xl mx-auto">Browse through our curated selection of upcoming events and find the perfect one for you.</p>
         </div>
     </div>
 </div>
 
 <!-- Filter Section -->
-<div class="bg-gray-50 border-b">
+<div class="bg-white border-b">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div class="flex flex-wrap gap-4 justify-center">
-            <button class="px-4 py-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors">All Events</button>
-            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Technology</button>
-            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Business</button>
-            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Arts & Culture</button>
-            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Food & Drinks</button>
-            <button class="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition-colors">Music</button>
+            <a href="{% url 'events-page' %}" class="px-4 py-2 rounded-full {% if not request.GET.category %}bg-slate-900 text-white{% else %}bg-gray-100 text-gray-700{% endif %} hover:bg-slate-800 transition-colors">All Events</a>
+            <a href="{% url 'events-page' %}?category=Technology" class="px-4 py-2 rounded-full {% if request.GET.category == 'Technology' %}bg-slate-900 text-white{% else %}bg-gray-100 text-gray-700{% endif %} hover:bg-gray-200 transition-colors">Technology</a>
+            <a href="{% url 'events-page' %}?category=Business" class="px-4 py-2 rounded-full {% if request.GET.category == 'Business' %}bg-slate-900 text-white{% else %}bg-gray-100 text-gray-700{% endif %} hover:bg-gray-200 transition-colors">Business</a>
+            <a href="{% url 'events-page' %}?category=Arts%20%26%20Culture" class="px-4 py-2 rounded-full {% if request.GET.category == 'Arts & Culture' %}bg-slate-900 text-white{% else %}bg-gray-100 text-gray-700{% endif %} hover:bg-gray-200 transition-colors">Arts & Culture</a>
+            <a href="{% url 'events-page' %}?category=Food%20%26%20Drinks" class="px-4 py-2 rounded-full {% if request.GET.category == 'Food & Drinks' %}bg-slate-900 text-white{% else %}bg-gray-100 text-gray-700{% endif %} hover:bg-gray-200 transition-colors">Food & Drinks</a>
+            <a href="{% url 'events-page' %}?category=Music" class="px-4 py-2 rounded-full {% if request.GET.category == 'Music' %}bg-slate-900 text-white{% else %}bg-gray-100 text-gray-700{% endif %} hover:bg-gray-200 transition-colors">Music</a>
         </div>
     </div>
 </div>
@@ -30,89 +30,83 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% for event in events %}
-        <div class="card group hover:scale-105 transition-transform duration-300">
-            <div class="relative overflow-hidden rounded-t-lg">
-                <img src="{{ event.image }}" alt="{{ event.name }}" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110">
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden group">
+            <div class="relative overflow-hidden">
+                <img src="{{ event.image }}" alt="{{ event.name }}" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
                 <div class="absolute top-4 right-4">
-                    <div class="bg-white bg-opacity-90 rounded-lg px-3 py-1 text-sm font-semibold text-gray-900">
+                    <div class="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1 text-sm font-semibold text-slate-900">
                         {{ event.price }}
+                    </div>
+                </div>
+                <div class="absolute bottom-4 left-4">
+                    <div class="flex flex-wrap gap-2">
+                        {% for tag in event.tags|slice:":2" %}
+                        <span class="bg-slate-900/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">{{ tag }}</span>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
             
             <div class="p-6">
-                <div class="flex flex-wrap gap-2 mb-4">
-                    {% for tag in event.tags %}
-                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">{{ tag }}</span>
-                    {% endfor %}
-                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3 line-clamp-2">{{ event.name }}</h3>
+                <p class="text-slate-600 mb-4 line-clamp-3">{{ event.description }}</p>
 
-                <h3 class="text-xl font-bold text-gray-900 mb-2">{{ event.name }}</h3>
-                <p class="text-gray-600 mb-4">{{ event.description }}</p>
-
-                <div class="space-y-2 text-gray-600 mb-6">
-                    <div class="flex items-center">
-                        <i class="fas fa-map-marker-alt w-5"></i>
+                <div class="space-y-2 text-sm text-slate-600 mb-6">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
                         <span>{{ event.venue }}</span>
                     </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-calendar w-5"></i>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
                         <span>{{ event.date }}</span>
                     </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-clock w-5"></i>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                        </svg>
                         <span>{{ event.time }}</span>
                     </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-users w-5"></i>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                        </svg>
                         <span>{{ event.capacity }} attendees max</span>
                     </div>
                 </div>
 
-                <div class="flex justify-between items-center">
-                    <div class="text-sm text-gray-600">
-                        <span class="font-semibold">By:</span> {{ event.organizer }}
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-slate-500">
+                        <span class="font-medium text-slate-700">By:</span> {{ event.organizer }}
                     </div>
-                    <a href="#" class="btn-primary">View Details</a>
+                    <a href="#" class="bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors text-sm font-medium">View Details</a>
                 </div>
             </div>
         </div>
         {% empty %}
-        <div class="col-span-3 text-center py-12">
-            <p class="text-gray-600 text-lg">No events found.</p>
+        <div class="col-span-full text-center py-16">
+            <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-9 4h10a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6a2 2 0 012-2z"/>
+            </svg>
+            <h3 class="text-xl font-medium text-slate-900 mb-2">No events found</h3>
+            <p class="text-slate-500">Check back later for upcoming events.</p>
         </div>
         {% endfor %}
     </div>
 </div>
-{% endblock %}
-  }
-  .event-desc {
-    margin: 0 0 8px 0;
-    color: #6d4c41;
-    font-size: 1rem;
-  }
-  .event-meta {
-    margin: 0 0 4px 0;
-    font-size: 14px;
-    color: #a47149;
-  }
-</style>
-{% endblock %}
-{% block content %}
-<h2 class="events-title">Upcoming Events</h2>
-<div class="events-grid">
-    {% for event in events %}
-    <div class="event-card">
-        <img src="{{ event.image }}" alt="{{ event.name }}" class="event-img">
-        <div class="event-content">
-            <h3 class="event-name">{{ event.name }}</h3>
-            <p class="event-desc">{{ event.description }}</p>
-            <p class="event-meta">Venue: {{ event.venue }}</p>
-            <p class="event-meta">Date: {{ event.date }}</p>
+
+<!-- Newsletter Section -->
+<div class="bg-slate-50 py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-slate-900 mb-4">Stay Updated</h2>
+        <p class="text-xl text-slate-600 mb-8">Get notified about new events and exclusive opportunities</p>
+        <div class="flex flex-col sm:flex-row max-w-md mx-auto space-y-3 sm:space-y-0 sm:space-x-3">
+            <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500">
+            <button class="bg-slate-900 text-white px-6 py-3 rounded-lg hover:bg-slate-800 transition-colors font-medium">Subscribe</button>
         </div>
     </div>
-    {% empty %}
-    <p>No events found.</p>
-    {% endfor %}
 </div>
 {% endblock %}

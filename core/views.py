@@ -18,7 +18,7 @@ def register_view(request):
         # Simulate registration by saving role in session
         request.session['role'] = role
         request.session['username'] = username
-        return redirect('home-page')
+        return redirect('login-page')
     return render(request, 'register.html')
 def events_view(request):
     events = [

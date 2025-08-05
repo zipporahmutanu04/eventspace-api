@@ -21,17 +21,17 @@ SECRET_KEY = 'django-insecure-tjdd#uw90ekj@!(6aty&e3ref)3vfzs!s1dpjx7b2wf(3dhbnx
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = [
-    'eventspace-api-production.up.railway.app',
-    'https://eventspace-api-production.up.railway.app',
     'localhost',
     '127.0.0.1',
+    '10.0.1.87',
+    '10.0.1.87:8000',
     '10.0.6.34',
 ]
 CSRF_TRUSTED_ORIGINS = [
-    'https://eventspace-api-production.up.railway.app',
     'http://localhost:8000',
     'http://10.0.6.34',
     'http://127.0.0.1',
+    'http://10.0.1.87:8000',
 ]
 
 INSTALLED_APPS = [
@@ -249,7 +249,8 @@ JAZZMIN_UI_TWEAKS = {
 CORS_ALLOW_ALL_ORIGINS = True  # Only for development
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    'http://0.0.0.0:8000'
+    'http://0.0.0.0:8000',
+    'http://10.0.1.87:8000',
     "http://localhost:5173",
     "http://10.0.6.34:5173",
     

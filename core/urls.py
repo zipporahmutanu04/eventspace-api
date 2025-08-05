@@ -32,7 +32,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.authentication.urls')),
+    path('', core_views.home_view, name='home-page'),
     path('api/spaces/', include('apps.spaces.urls')),
     path('api/bookings/', include('apps.bookings.urls')),
     path('events/', core_views.events_view, name='events-page'),
